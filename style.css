@@ -1,0 +1,432 @@
+:root {
+  --bg: #EEF0EA;
+  --panel-bg: #F8F9F4;
+  --ink: #1F3A3D;
+  --ink-soft: #45564F;
+  --muted: #74807A;
+  --line: #D6DACE;
+  --accent: #E8730C;
+  --accent-soft: #F7E1C6;
+  --focus: #2F6E73;
+
+  --font-display: "Shippori Mincho", serif;
+  --font-body: "Noto Sans JP", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ---------- header ---------- */
+
+#site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-bg);
+  flex: 0 0 auto;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--panel-bg);
+  background: var(--ink);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  letter-spacing: 0.02em;
+  writing-mode: vertical-rl;
+  
+  /* 修正ポイント */
+  align-items: flex-end;  /* center から変更して右寄せにする */
+  justify-content: center;  /* 上下の中央揃えはそのままキープ */
+  
+  /* きれいに見せるための追加要素 */
+  padding-right: 0px;       /* 右端にくっつきすぎるのを防ぐ余白（お好みで調整） */
+  box-sizing: border-box;   /* paddingを入れても円のサイズ（44px）を維持する */
+}
+
+.brand-text h1 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.tagline {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- layout ---------- */
+
+#main {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: 0;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  background: #dfe3da;
+}
+
+#sidebar {
+  border-right: 1px solid var(--line);
+  background: var(--panel-bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ---------- search panel ---------- */
+
+#search-panel {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 9px 12px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
+#search-input:focus,
+select:focus,
+button:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#search-panel > .filter-field {
+  margin-top: 12px;
+}
+
+.filter-field { flex: 1 1 0; min-width: 0; }
+
+/* input[type="number"] { */
+input[type="number"],
+input[type="month"] {
+  width: 100%;
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
+/* input[type="number"]:focus { */
+input[type="number"]:focus,
+input[type="month"]:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+select {
+  width: 100%;
+  padding: 8px 10px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.toggle-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#reset-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#reset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- result meta / list ---------- */
+
+#result-meta {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+
+.download-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  background: #fff;
+  color: var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.download-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+#event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+.event-row {
+  display: flex;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.event-row:hover {
+  background: var(--accent-soft);
+}
+
+.event-row.is-active {
+  background: var(--ink);
+  color: #fff;
+}
+
+.event-row.is-active .event-row-place,
+.event-row.is-active .event-row-date {
+  color: #C9D6D2;
+}
+
+.event-row-body { min-width: 0; flex: 1 1 auto; }
+
+.event-row-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 3px;
+  line-height: 1.35;
+}
+
+.event-row-place {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin: 0 0 2px;
+}
+
+.event-row-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- map markers / popups ---------- */
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  font-family: var(--font-body);
+}
+
+.popup-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 4px;
+}
+
+.popup-place {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: 0 0 6px;
+}
+
+.popup-desc {
+  white-space: pre-line; /* description内の改行(\n)をそのまま表示する */
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+.popup-link {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+/* ---------- pagination ---------- */
+
+#pagination {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--line);
+}
+
+#pagination button {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-soft);
+  border-radius: 4px;
+  padding: 5px 9px;
+  cursor: pointer;
+}
+
+#pagination button[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+#pagination button.is-current {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+/* ---------- basemap switcher (map control) ---------- */
+
+.basemap-control {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(31, 58, 61, 0.3);
+}
+
+.basemap-control select {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+  #main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 42vh 1fr;
+  }
+  #sidebar {
+    border-right: none;
+    border-top: 1px solid var(--line);
+  }
+  #map { order: -1; }
+
+  /* iOS Safariはフォントサイズが16px未満の入力欄にフォーカスすると自動ズームするため、
+     スマホ幅ではズーム防止に16px以上を確保する */
+  #search-input,
+  input[type="number"],
+  input[type="month"],
+  select {
+    font-size: 16px;
+  }
+}
