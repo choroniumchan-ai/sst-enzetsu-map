@@ -1,13 +1,16 @@
 :root {
-  --bg: #EEF0EA;
-  --panel-bg: #F8F9F4;
-  --ink: #1F3A3D;
-  --ink-soft: #45564F;
-  --muted: #74807A;
-  --line: #D6DACE;
-  --accent: #E8730C;
-  --accent-soft: #F7E1C6;
-  --focus: #2F6E73;
+  /* 和モダン・カラーパレット */
+  --bg: #F4F3EE;           /* 生成り色（きなりいろ） - 上品な和紙のベース */
+  --panel-bg: #FAF9F5;     /* 雲母色（きららいろ） - やや明るい生成り */
+  --ink: #1C1D1B;          /* 消墨色（けしずみいろ） - 深みのある漆黒に近い墨色 */
+  --ink-soft: #3D403C;     /* 泥墨色（どろずみいろ） - 柔らかい黒 */
+  --muted: #82857E;        /* 利休鼠（りきゅうねずみ） - 緑がかった上品なグレー */
+  --line: #D8D4C7;         /* 白練（しろねり）に近いベージュグレーの境界線 */
+  --accent: #F05A00;       /* 茜色・橙色（あかね・だいだい） - 参政党オレンジ（鮮やかで際立つ） */
+  --accent-soft: #FFF1E6;  /* 桜朱（さくらあけ）のような極めて薄い橙 */
+  --focus: #C89A38;        /* 真鍮色（しんちゅういろ） - 上品なゴールド */
+  --focus-soft: #F4ECCD;   /* 薄金（うすかね） */
+  --shadow: rgba(28, 29, 27, 0.08);
 
   --font-display: "Shippori Mincho", serif;
   --font-body: "Noto Sans JP", sans-serif;
@@ -25,6 +28,7 @@ body {
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--bg);
+  line-height: 1.6;
 }
 
 #app {
@@ -36,9 +40,10 @@ body {
 /* ---------- header ---------- */
 
 #site-header {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
   background: var(--panel-bg);
   flex: 0 0 auto;
+  box-shadow: 0 2px 8px var(--shadow);
 }
 
 .header-inner {
@@ -52,46 +57,44 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
+/* 和風の落款（スタンプ）をイメージしたブランドマーク */
 .brand-mark {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.3rem;
-  color: var(--panel-bg);
-  background: var(--ink);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  font-size: 1.15rem;
+  color: #fff;
+  background: var(--accent);
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
   letter-spacing: 0.02em;
   writing-mode: vertical-rl;
-  
-  /* 修正ポイント */
-  align-items: flex-end;  /* center から変更して右寄せにする */
-  justify-content: center;  /* 上下の中央揃えはそのままキープ */
-  
-  /* きれいに見せるための追加要素 */
-  padding-right: 0px;       /* 右端にくっつきすぎるのを防ぐ余白（お好みで調整） */
-  box-sizing: border-box;   /* paddingを入れても円のサイズ（44px）を維持する */
+  box-shadow: 0 2px 4px rgba(240, 90, 0, 0.2);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-sizing: border-box;
 }
 
 .brand-text h1 {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   margin: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  color: var(--ink);
 }
 
 .tagline {
-  margin: 2px 0 0;
-  font-size: 0.8rem;
+  margin: 4px 0 0;
+  font-size: 0.78rem;
   color: var(--muted);
+  letter-spacing: 0.02em;
 }
 
 /* ---------- layout ---------- */
@@ -106,7 +109,7 @@ body {
 #map {
   height: 100%;
   width: 100%;
-  background: #dfe3da;
+  background: #e5e3dc;
 }
 
 #sidebar {
@@ -115,151 +118,167 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  box-shadow: 2px 0 8px var(--shadow);
+  z-index: 2;
 }
 
 /* ---------- search panel ---------- */
 
 #search-panel {
-  padding: 18px 20px 14px;
+  padding: 24px 20px 18px;
   border-bottom: 1px solid var(--line);
   flex: 0 0 auto;
+  background: var(--panel-bg);
 }
 
 .field-label {
   display: block;
-  font-size: 0.72rem;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  margin-bottom: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
 }
 
 #search-input {
   width: 100%;
-  padding: 9px 12px;
+  padding: 10px 14px;
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   color: var(--ink);
+  transition: all 0.25s ease;
 }
 
 #search-input:focus,
 select:focus,
-button:focus {
-  outline: 2px solid var(--focus);
-  outline-offset: 1px;
+input[type="month"]:focus {
+  border-color: var(--focus);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(200, 154, 56, 0.15);
 }
 
 .filter-row {
   display: flex;
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 #search-panel > .filter-field {
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .filter-field { flex: 1 1 0; min-width: 0; }
 
-/* input[type="number"] { */
-input[type="number"],
 input[type="month"] {
   width: 100%;
-  padding: 8px 10px;
+  padding: 9px 12px;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   color: var(--ink);
-}
-
-/* input[type="number"]:focus { */
-input[type="number"]:focus,
-input[type="month"]:focus {
-  outline: 2px solid var(--focus);
-  outline-offset: 1px;
+  transition: all 0.25s ease;
 }
 
 select {
   width: 100%;
-  padding: 8px 10px;
+  padding: 9px 12px;
   font-family: var(--font-body);
   font-size: 0.85rem;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   color: var(--ink);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%233D403C' d='M0 2l4 4 4-4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 8px;
+  padding-right: 30px;
 }
 
 .toggle-btn {
-  margin-top: 12px;
+  margin-top: 14px;
   width: 100%;
-  padding: 8px 10px;
-  font-family: var(--font-mono);
+  padding: 10px 12px;
+  font-family: var(--font-body);
   font-size: 0.82rem;
+  font-weight: 500;
   color: var(--ink);
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .toggle-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
+  background: var(--accent-soft);
 }
 
 #reset-btn {
-  margin-top: 12px;
+  margin-top: 10px;
   width: 100%;
-  padding: 8px 10px;
+  padding: 9px 12px;
   font-family: var(--font-body);
   font-size: 0.82rem;
-  color: var(--ink-soft);
+  color: var(--muted);
   background: transparent;
   border: 1px dashed var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 #reset-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--ink-soft);
+  color: var(--ink);
+  background: rgba(28, 29, 27, 0.02);
 }
 
 /* ---------- result meta / list ---------- */
 
 #result-meta {
-  padding: 10px 20px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--muted);
   border-bottom: 1px solid var(--line);
+  background: var(--panel-bg);
   flex: 0 0 auto;
 }
 
 .download-btn {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  padding: 6px 10px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 14px;
   border: 1px solid var(--accent);
-  background: #fff;
+  background: transparent;
   color: var(--accent);
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
 .download-btn:hover {
   background: var(--accent);
   color: #fff;
+  box-shadow: 0 2px 6px rgba(240, 90, 0, 0.2);
 }
 
 #event-list {
@@ -268,29 +287,40 @@ select {
   padding: 0;
   overflow-y: auto;
   flex: 1 1 auto;
+  background: var(--panel-bg);
 }
 
 .event-row {
   display: flex;
   gap: 12px;
-  padding: 12px 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--line);
   cursor: pointer;
-  transition: background-color 0.12s ease;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.event-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.2s ease;
 }
 
 .event-row:hover {
-  background: var(--accent-soft);
+  background: rgba(240, 90, 0, 0.03);
 }
 
 .event-row.is-active {
-  background: var(--ink);
-  color: #fff;
+  background: var(--accent-soft);
 }
 
-.event-row.is-active .event-row-place,
-.event-row.is-active .event-row-date {
-  color: #C9D6D2;
+.event-row.is-active::before {
+  width: 4px;
 }
 
 .event-row-body { min-width: 0; flex: 1 1 auto; }
@@ -299,8 +329,10 @@ select {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.95rem;
-  margin: 0 0 3px;
-  line-height: 1.35;
+  margin: 0 0 6px;
+  line-height: 1.45;
+  color: var(--ink);
+  letter-spacing: 0.02em;
 }
 
 .event-row-place {
@@ -311,7 +343,7 @@ select {
 
 .event-row-date {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 
@@ -319,40 +351,61 @@ select {
   padding: 40px 20px;
   text-align: center;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
 }
 
 /* ---------- map markers / popups ---------- */
 
 .leaflet-popup-content-wrapper {
-  border-radius: 8px;
+  border-radius: 6px;
   font-family: var(--font-body);
+  background: var(--panel-bg);
+  box-shadow: 0 4px 16px rgba(28, 29, 27, 0.15);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.leaflet-popup-tip {
+  background: var(--panel-bg);
+  border: 1px solid var(--line);
 }
 
 .popup-title {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1rem;
-  margin: 0 0 4px;
+  margin: 0 0 6px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
 }
 
 .popup-place {
   font-size: 0.8rem;
   color: var(--ink-soft);
-  margin: 0 0 6px;
-}
-
-.popup-desc {
-  white-space: pre-line; /* description内の改行(\n)をそのまま表示する */
-  font-size: 0.8rem;
-  line-height: 1.5;
   margin: 0 0 8px;
 }
 
+.popup-desc {
+  white-space: pre-line;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  margin: 0 0 12px;
+  color: var(--ink-soft);
+}
+
 .popup-link {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8rem;
   color: var(--accent);
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.popup-link:hover {
+  color: var(--ink);
 }
 
 /* ---------- pagination ---------- */
@@ -363,68 +416,172 @@ select {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px;
+  padding: 14px 10px;
   border-top: 1px solid var(--line);
+  background: var(--panel-bg);
 }
 
 #pagination button {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   border: 1px solid var(--line);
   background: #fff;
   color: var(--ink-soft);
   border-radius: 4px;
-  padding: 5px 9px;
+  padding: 6px 12px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#pagination button:not([disabled]):hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
 }
 
 #pagination button[disabled] {
   opacity: 0.35;
   cursor: default;
+  background: rgba(28, 29, 27, 0.02);
 }
 
 #pagination button.is-current {
-  background: var(--ink);
+  background: var(--accent);
   color: #fff;
-  border-color: var(--ink);
+  border-color: var(--accent);
+  box-shadow: 0 2px 4px rgba(240, 90, 0, 0.15);
 }
 
 /* ---------- basemap switcher (map control) ---------- */
 
 .basemap-control {
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(31, 58, 61, 0.3);
+  background: var(--panel-bg);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px var(--shadow);
+  border: 1px solid var(--line);
 }
 
 .basemap-control select {
   border: none;
-  border-radius: 6px;
-  padding: 7px 10px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   color: var(--ink);
   background: transparent;
   cursor: pointer;
+  outline: none;
+}
+
+/* ---------- active pulse marker (Leaflet L.divIcon) ---------- */
+.active-pulse-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.active-pulse-core {
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+  z-index: 2;
+  position: absolute;
+}
+
+.active-pulse-wave {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  animation: markerPulse 1.6s ease-out infinite;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes markerPulse {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* ---------- mobile tabs (only on mobile) ---------- */
+#mobile-tabs {
+  display: none;
 }
 
 /* ---------- responsive ---------- */
 
-@media (max-width: 860px) {
+@media (max-width: 768px) {
+  #mobile-tabs {
+    display: flex;
+    background: var(--panel-bg);
+    border-bottom: 1px solid var(--line);
+    flex: 0 0 auto;
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .mobile-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+  
+  .mobile-tab-btn.is-active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
   #main {
     grid-template-columns: 1fr;
-    grid-template-rows: 42vh 1fr;
+    grid-template-rows: 1fr; /* タブで切り替えるため1枚の全画面表示に */
+    height: calc(100vh - 120px); /* ヘッダーとタブの分を引く */
   }
+
   #sidebar {
     border-right: none;
-    border-top: 1px solid var(--line);
+    border-top: none;
+    box-shadow: none;
+    height: 100%;
   }
-  #map { order: -1; }
 
-  /* iOS Safariはフォントサイズが16px未満の入力欄にフォーカスすると自動ズームするため、
-     スマホ幅ではズーム防止に16px以上を確保する */
+  #map {
+    height: 100%;
+    order: unset;
+  }
+
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  /* iOS Safariズーム防止 */
   #search-input,
-  input[type="number"],
   input[type="month"],
   select {
     font-size: 16px;

@@ -117,6 +117,7 @@ let map;
 let tileLayer;
 let markers = {};          // id -> Leaflet marker
 let activeId = null;
+let activeMarker = null;   // アクティブ（選択中）の波紋アニメーションマーカー
 
 const state = {
   page: 1,
@@ -130,6 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initPrefectureSelect();
   bindControls();
   updateSortButtonLabel();
+  initMobileTabs();        // モバイル用タブの初期化
 
   // 2. HTTP GET で JSON データを取得
   try {
@@ -161,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ---------- map ----------
 
 function initMap() {
-  map = L.map("map").setView([36.5, 138.0], 5);
+  map = L.map("map", { preferCanvas: true }).setView([36.5, 138.0], 5);
   setBasemap(DEFAULT_BASEMAP);
   map.addControl(new BasemapControl());
 }
@@ -321,8 +323,13 @@ function render(filtered) {
 }
 
 function renderMarkers(filtered) {
-Object.values(markers).forEach(m => map.removeLayer(m));
+  Object.values(markers).forEach(m => map.removeLayer(m));
   markers = {};
+
+  if (activeMarker) {
+    map.removeLayer(activeMarker);
+    activeMarker = null;
+  }
 
   // 1. 同一座標のイベントを高速にグループ化する（Mapオブジェクトを使用）
   // 浮動小数点の誤差を考慮し、緯度・経度を固定小数点（整数化）してキーにする
@@ -429,7 +436,13 @@ function renderList() {
       `<p class="event-row-title">${ev.place}</p>` +
       `<p class="event-row-date">${formatDateDisplay(ev.date)}</p>` +
       `</span>`;
-    li.addEventListener("click", () => setActive(ev.id, false));
+    li.addEventListener("click", () => {
+      setActive(ev.id, false);
+      if (window.innerWidth <= 768) {
+        const tabMap = document.getElementById("tab-map");
+        if (tabMap) tabMap.click();
+      }
+    });
     list.appendChild(li);
   });
 }
@@ -472,27 +485,43 @@ function pageButton(label, targetPage, disabled) {
 function setActive(id, fromMap) {
   activeId = id;
 
-  Object.entries(markers).forEach(([key, marker]) => marker.setStyle(markerStyle(key === id)));
+  // リストの行のアクティブ表示切り替え
   document.querySelectorAll(".event-row").forEach(row => row.classList.toggle("is-active", row.dataset.id === id));
 
   const ev = EVENTS.find(e => e.id === id);
   if (!ev) return;
 
+  // 古いアクティブ用アニメーションマーカーを削除
+  if (activeMarker) {
+    map.removeLayer(activeMarker);
+    activeMarker = null;
+  }
+
+  // 新しいアクティブ用アニメーションマーカーを生成して重ねる
+  const activeIcon = L.divIcon({
+    className: 'active-pulse-marker',
+    html: '<div class="active-pulse-container"><div class="active-pulse-wave"></div><div class="active-pulse-core"></div></div>',
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+  });
+  activeMarker = L.marker([ev.lat, ev.lng], { icon: activeIcon, interactive: false }).addTo(map);
+
   if (fromMap) {
     document.querySelector(`.event-row[data-id="${id}"]`)?.scrollIntoView({ block: "nearest" });
   } else {
     map.setView([ev.lat, ev.lng], Math.max(map.getZoom(), 11));
-    markers[id].openPopup();
+    if (markers[id]) markers[id].openPopup();
   }
 }
 
 function markerStyle(active) {
+  // 通常のCanvasサークルマーカーのスタイル（橙色が際立つように枠線と色を調整）
   return {
-    radius: active ? 9 : 6,
-    weight: 2,
-    color: "#fff",
-    fillColor: active ? "#1F3A3D" : "#E8730C", // 通常時: 橙色 / 選択時: インク色
-    fillOpacity: 1
+    radius: 6,
+    weight: 1.5,
+    color: "#ffffff",
+    fillColor: "#F05A00", // 鮮やかな橙色
+    fillOpacity: 0.95
   };
 }
 
@@ -553,4 +582,51 @@ function downloadJson(events) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+function initMobileTabs() {
+  const tabMap = document.getElementById("tab-map");
+  const tabList = document.getElementById("tab-list");
+  const mapEl = document.getElementById("map");
+  const sidebarEl = document.getElementById("sidebar");
+
+  if (!tabMap || !tabList || !mapEl || !sidebarEl) return;
+
+  // 初期状態（モバイル表示時）：地図のみを表示
+  if (window.innerWidth <= 768) {
+    sidebarEl.classList.add("mobile-hidden");
+  }
+
+  tabMap.addEventListener("click", () => {
+    tabMap.classList.add("is-active");
+    tabList.classList.remove("is-active");
+    sidebarEl.classList.add("mobile-hidden");
+    mapEl.classList.remove("mobile-hidden");
+    // 地図のサイズ再計算（表示崩れ防止）
+    setTimeout(() => {
+      if (map) map.invalidateSize({ animate: true });
+    }, 50);
+  });
+
+  tabList.addEventListener("click", () => {
+    tabList.classList.add("is-active");
+    tabMap.classList.remove("is-active");
+    mapEl.classList.add("mobile-hidden");
+    sidebarEl.classList.remove("mobile-hidden");
+  });
+
+  // リサイズ時の表示調整（PCサイズに戻ったときに表示崩れを防ぐ）
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      sidebarEl.classList.remove("mobile-hidden");
+      mapEl.classList.remove("mobile-hidden");
+    } else {
+      // モバイルサイズになったら現在選択されているタブの表示に合わせる
+      if (tabMap.classList.contains("is-active")) {
+        sidebarEl.classList.add("mobile-hidden");
+      } else {
+        mapEl.classList.add("mobile-hidden");
+      }
+    }
+  });
 }
